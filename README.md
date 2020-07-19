@@ -2,7 +2,7 @@
 
 
 ### Usage
-We give the examples to run different datasets in solar.sh, canteen_num.sh,canteen_money.sh
+We give the examples to run different datasets in solar.sh, canteen_num.sh, canteen_money.sh
 
 ### Folder details
  * data : save your dataset 
