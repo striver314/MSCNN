@@ -1,0 +1,1 @@
+python3 main.py --data './data/solar_AL.txt' 
