@@ -21,12 +21,6 @@ class MSCNN(nn.Module):
         self.pad = self.skip-(self.windows % (self.skip + 1))+1
 
 
-        #Residual
-        self.shortcut = nn.Sequential(
-            nn.Conv2d(self.windows, self.windows-self.C_steps+1, kernel_size=(1, self.dims), stride=1, bias=False),
-            nn.BatchNorm2d(self.windows-self.C_steps+1)
-        )
-
         # CNN & CNN-skip
         self.CNN_normal = nn.Conv2d(1, self.C_nums, (self.C_steps, self.dims), stride=1)
         self.CNN_relu = nn.ReLU(inplace=True)
@@ -63,13 +57,10 @@ class MSCNN(nn.Module):
         else:
             c1_padding = c1
 
-        #CNN and Residual
-        c1_residual = c1.permute(0, 2, 1, 3)
+        #CNN
         c1_out = self.CNN_normal(c1)
         c1_out = F.relu(c1_out)
         c1_out = c1_out.permute(0, 2, 1, 3)
-        c1_residual = self.shortcut(c1_residual)
-        c1_out += c1_residual
         c1_out.permute(0, 2, 1, 3)
         c1_out = c1_out.reshape(batch_size, self.C_nums, -1, 1)
         c1_out = self.CNN_pool(c1_out)
@@ -112,4 +103,5 @@ class MSCNN(nn.Module):
         c = torch.squeeze(c)
         c = self.fullconnect(c)
         c = torch.squeeze(c)
+
         return c
