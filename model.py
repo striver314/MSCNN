@@ -21,7 +21,14 @@ class MSCNN(nn.Module):
         self.pad = self.skip-(self.windows % (self.skip + 1))+1
 
 
+
+
+
         # CNN & CNN-skip
+        self.shortcut = nn.Sequential(
+            nn.Conv2d(self.windows, self.windows - self.C_steps + 1, kernel_size=(1, self.dims), stride=1, bias=False),
+            nn.BatchNorm2d(self.windows - self.C_steps + 1)
+        )
         self.CNN_normal = nn.Conv2d(1, self.C_nums, (self.C_steps, self.dims), stride=1)
         self.CNN_relu = nn.ReLU(inplace=True)
         self.CNN_expand_1 = nn.Conv2d(1, self.C_nums, (self.dims, 2), stride=(self.dims, 1))
@@ -29,7 +36,7 @@ class MSCNN(nn.Module):
         self.CNN_expand_3 = nn.Conv2d(1, self.C_nums, (self.dims, 5), stride=(self.dims, 1))
         self.CNN_pool = nn.AdaptiveAvgPool2d((1, 1))
 
-        # SE-Net
+        # FM-SENet
         self.SENet_globavgpool = nn.AvgPool2d((1, 4), stride=1)
         self.fc1 = nn.Linear(in_features=self.C_nums, out_features=round(self.C_nums/10))
         self.fc2 = nn.Linear(in_features=round(self.C_nums/10), out_features=self.C_nums)
@@ -58,9 +65,12 @@ class MSCNN(nn.Module):
             c1_padding = c1
 
         #CNN
+        c1_res = c1.permute(0, 2, 1, 3)
         c1_out = self.CNN_normal(c1)
         c1_out = F.relu(c1_out)
         c1_out = c1_out.permute(0, 2, 1, 3)
+        c1_res = self.shortcut(c1_res)
+        c1_out += c1_res
         c1_out.permute(0, 2, 1, 3)
         c1_out = c1_out.reshape(batch_size, self.C_nums, -1, 1)
         c1_out = self.CNN_pool(c1_out)
@@ -78,13 +88,15 @@ class MSCNN(nn.Module):
         c2_out_1 = F.relu(c2_out_1)
         c2_out_2 = F.relu(c2_out_2)
         c2_out_3 = F.relu(c2_out_3)
+
+
+
+        #concat
         c2_out_1 = self.CNN_pool(c2_out_1)
         c2_out_2 = self.CNN_pool(c2_out_2)
         c2_out_3 = self.CNN_pool(c2_out_3)
         c2_out = torch.stack([c2_out_1, c2_out_2, c2_out_3]).squeeze(4)
         c2_out = c2_out.permute(1, 2, 0, 3)
-
-        #concat
         c_out = torch.cat([c1_out, c2_out], 2).squeeze(3)
 
         #SENet
@@ -103,5 +115,4 @@ class MSCNN(nn.Module):
         c = torch.squeeze(c)
         c = self.fullconnect(c)
         c = torch.squeeze(c)
-
         return c
