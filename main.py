@@ -70,7 +70,7 @@ def train(data, X, Y, model, criterion, optim, batch_size):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PyTorch Time series forecasting')
-    parser.add_argument('--data', type=str, default='./data/21D+24h-48s_dining_num.txt',
+    parser.add_argument('--data', type=str, default='./data/solar_AL.txt',
                         help='the path of the dataset ')
     parser.add_argument('--horizon', type=int, default=3,
                         help='horizon of data')
