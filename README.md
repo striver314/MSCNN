@@ -2,6 +2,7 @@
 
 
 ### Usage
+please unzip the solar_AL.zip when you want to use it.
 We give the examples to run different datasets in solar.sh, canteen_num.sh, canteen_money.sh
 
 ### Folder details
