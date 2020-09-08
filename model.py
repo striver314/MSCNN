@@ -38,8 +38,8 @@ class MSCNN(nn.Module):
 
         # FM-SENet
         self.SENet_globavgpool = nn.AvgPool2d((1, 4), stride=1)
-        self.fc1 = nn.Linear(in_features=self.C_nums, out_features=round(self.C_nums/10))
-        self.fc2 = nn.Linear(in_features=round(self.C_nums/10), out_features=self.C_nums)
+        self.fc1 = nn.Linear(in_features=self.C_nums, out_features=round(self.C_nums/16))
+        self.fc2 = nn.Linear(in_features=round(self.C_nums/16), out_features=self.C_nums)
         self.sigmoid = nn.Sigmoid()
         self.relu = nn.ReLU(inplace=True)
 
