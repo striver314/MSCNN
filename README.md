@@ -3,7 +3,7 @@
 
 ### Usage
 please unzip the solar_AL.zip when you want to use it.
-We give the examples to run different datasets in solar.sh, canteen_num.sh, canteen_money.sh
+We give the examples to run different datasets in solar.sh, canteen_dining.sh, canteen_consumption.sh
 
 ### Folder details
  * data : save your dataset 
