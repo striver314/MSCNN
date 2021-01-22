@@ -1,6 +1,9 @@
 # MSCNN
 
 
+### Paper
+[Multi-scale Temporal Patterns Convolution Networks for Predicting Pedestrian Volume in Campus Public Area](http://www.jos.org.cn/1000-9825/6183.htm)
+
 ### Usage
 please unzip the solar_AL.zip when you want to use it.
 We give the examples to run different datasets in solar.sh, canteen_dining.sh, canteen_consumption.sh
