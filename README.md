@@ -2,7 +2,7 @@
 
 
 ### Paper
-[Multi-scale Temporal Patterns Convolution Networks for Predicting Pedestrian Volume in Campus Public Area](http://www.jos.org.cn/1000-9825/6183.htm)
+[Pedestrian Volume Prediction for Campus Public Area Based on Multi-scale Temporal Dependency](http://www.jos.org.cn/1000-9825/6183.htm)
 
 ### Usage
 please unzip the solar_AL.zip when you want to use it.
